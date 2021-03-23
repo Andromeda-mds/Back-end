@@ -2,7 +2,6 @@
 
 const mongoose = require("mongoose");
 const Medico = mongoose.model("Medico");
-const Agenda = mongoose.model("Agenda");
 
 exports.cadastrarMedico = async (data) => {
   var medico = new Medico(data);
@@ -49,5 +48,10 @@ exports.buscarMedicoByNome = async (nomeCompleto) => {
 exports.buscarMedicoByCRM = async (crm) => {
   const query = Medico.where({crm:crm});
   const res = await query.findOne();
+  return res;
+}
+
+exports.listarMedicos = async () => {
+  const res = await Medico.find();
   return res;
 }

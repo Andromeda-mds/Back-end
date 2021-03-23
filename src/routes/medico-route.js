@@ -10,5 +10,6 @@ router.put("/:id", medicoController.AtualizarMedico);
 router.get("/:id", medicoController.BuscarMedicoById);
 router.get("/crm/:crm", medicoController.BuscarMedicoByCRM);
 router.get("/nome/:nome", medicoController.BuscarMedicoByNome);
+router.get("/", medicoController.ListarMedicos);
 
 module.exports = router;

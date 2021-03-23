@@ -86,3 +86,14 @@ exports.BuscarMedicoByCRM = async (req, res, next) => {
     });
   }
 }
+
+exports.ListarMedicos = async (req, res, nex) => {
+  try{
+    const data = await repository.listarMedicos();
+    res.status(200).send(data);
+  }catch(e){
+    res.status(500).send({
+      message: "Ops, tivemos algum problema.\nTente novamente mais tarde"
+    })
+  }
+}
