@@ -17,9 +17,11 @@ const connectDB = async () => {
 
   console.log("DB connected.");
 };
+connectDB();
 // carregando models
 const consultorio = require("./models/consultorio");
-const medico = require('./models/medico');
+const medico = require("./models/medico");
+const agenda = require("./models/agenda");
 // carregando rotas
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
@@ -27,9 +29,6 @@ const medicoRoute = require("./routes/medico-route");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-
-connectDB();
 
 // Rotas
 app.use("/", indexRoute);
