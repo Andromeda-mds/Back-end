@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const extendSchema = require("mongoose-extend-schema");
 const PessoaSchema = require("./pessoa");
 
-const schema = extendSchema(PessoaSchema, {
+const FuncionarioSchema = extendSchema(PessoaSchema, {
     senhaAcesso :{
         type: String,
         required: true
     }
 });
 
-module.exports = mongoose.model("funcionario", schema);
+module.exports = FuncionarioSchema;

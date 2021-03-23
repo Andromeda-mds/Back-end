@@ -52,20 +52,7 @@ exports.BuscarMedicoById = async (req, res, next) => {
     });
 
   try {
-    var data = await repository.BuscarMedicoById(id);
-    res.status(201).send(data);
-  } catch (e) {
-    res.status(400).send({
-      message: "Ocorreu um erro na requisição.",
-    });
-  }
-};
-
-exports.BuscarMedicoByNome = async (req, res, next) => {
-  const crm = req.params.crm;
-  console.log(crm);
-  try {
-    var data = await repository.buscarMedicoByNome(crm.toString());
+    var data = await repository.buscarMedicoById(id);
     res.status(201).send(data);
   } catch (e) {
     res.status(500).send({
@@ -74,18 +61,28 @@ exports.BuscarMedicoByNome = async (req, res, next) => {
   }
 };
 
-exports.CadastrarAgendaDoMedico = async (req, res, next) => {
-  const id = req.params.id;
-  const data = req.body;
-
+exports.BuscarMedicoByNome = async (req, res, next) => {
+  const nome = req.params.nome;
   try {
-    await repository.CadastrarAgendaDoMedico(id, data);
-    res.status(201).send({
-      message: "Agenda cadastrada com sucesso.",
-    });
+    var data = await repository.buscarMedicoByNome(nome);
+    res.status(201).send(data);
   } catch (e) {
-    res.status(400).send({
+    res.status(500).send({
       message: "Ocorreu um erro na requisição.",
     });
   }
 };
+
+
+exports.BuscarMedicoByCRM = async (req, res, next) => {
+  const crm = req.params.crm;
+
+  try{
+    const data = await repository.buscarMedicoByCRM(crm);
+    res.status(201).send(data);
+  }catch(e){
+    res.status(500).send({
+      message: "Não foi possível processar a requisição."
+    });
+  }
+}

@@ -20,7 +20,6 @@ exports.atualizarMedico = async (id, data) => {
       endereco: data.endereco,
       senhaAcesso: data.senhaAcesso,
       crm: data.crm,
-      agenda: data.agenda,
     },
   });
 };
@@ -30,19 +29,25 @@ exports.buscarMedicoById = async (id) => {
   return res;
 };
 
-exports.cadastrarAgendaDoMedico = async (id, data) => {
-  var agenda = new Agenda(data);
-  const res = await Agenda.save(agenda);
-  console.log(res);
-  await Medico.findByIdAndUpdate(id, {
+exports.cadastrarAgendaDoMedico = async (medicoId, agendaId) => {
+
+  console.log(agendaId);
+  const res = await Medico.findByIdAndUpdate(medicoId, {
     $set: {
-      agenda: res.id,
+      agenda: agendaId,
     },
   });
-};
-
-exports.buscarMedicoByNome = async (crm) => {
-  const query = Medico.where({crm:crm})
-  const res = query.findOne();
   return res;
 };
+
+exports.buscarMedicoByNome = async (nomeCompleto) => {
+  const query = Medico.where({ nomeCompleto: nomeCompleto });
+  const res = await query.findOne();
+  return res;
+};
+
+exports.buscarMedicoByCRM = async (crm) => {
+  const query = Medico.where({crm:crm});
+  const res = await query.findOne();
+  return res;
+}

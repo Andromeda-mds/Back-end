@@ -26,7 +26,9 @@ const agenda = require("./models/agenda");
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
 const medicoRoute = require("./routes/medico-route");
+const agendaRoute = require("./routes/agenda-route");
 
+//
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -34,5 +36,6 @@ app.use(express.json());
 app.use("/", indexRoute);
 app.use("/consultorio", consultorioRoute);
 app.use("/medico", medicoRoute);
+app.use("/agenda", agendaRoute);
 
 module.exports = app;
