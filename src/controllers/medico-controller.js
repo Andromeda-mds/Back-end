@@ -7,9 +7,10 @@ exports.CadastrarMedico = async (req, res, next) => {
   const data = req.body;
 
   // Fail fast validate
-  if(data.nomeCompleto.length < 3) return res.status(400).send({
-    message: "O nome deve conter, pelo menos, 3 caracteres."
-  })
+  if (data.nomeCompleto.length < 3)
+    return res.status(400).send({
+      message: "O nome deve conter, pelo menos, 3 caracteres.",
+    });
 
   try {
     await repository.cadastrarMedico(data);
@@ -60,6 +61,19 @@ exports.BuscarMedicoById = async (req, res, next) => {
   }
 };
 
+exports.BuscarMedicoByNome = async (req, res, next) => {
+  const crm = req.params.crm;
+  console.log(crm);
+  try {
+    var data = await repository.buscarMedicoByNome(crm.toString());
+    res.status(201).send(data);
+  } catch (e) {
+    res.status(500).send({
+      message: "Ocorreu um erro na requisição.",
+    });
+  }
+};
+
 exports.CadastrarAgendaDoMedico = async (req, res, next) => {
   const id = req.params.id;
   const data = req.body;
@@ -67,11 +81,11 @@ exports.CadastrarAgendaDoMedico = async (req, res, next) => {
   try {
     await repository.CadastrarAgendaDoMedico(id, data);
     res.status(201).send({
-      message: "Agenda cadastrada com sucesso."
-    })
-  }catch(e){
+      message: "Agenda cadastrada com sucesso.",
+    });
+  } catch (e) {
     res.status(400).send({
-      message: "Ocorreu um erro na requisição."
-    })
+      message: "Ocorreu um erro na requisição.",
+    });
   }
-}
+};

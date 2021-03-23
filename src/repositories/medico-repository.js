@@ -40,3 +40,9 @@ exports.cadastrarAgendaDoMedico = async (id, data) => {
     },
   });
 };
+
+exports.buscarMedicoByNome = async (crm) => {
+  const query = Medico.where({crm:crm})
+  const res = query.findOne();
+  return res;
+};
