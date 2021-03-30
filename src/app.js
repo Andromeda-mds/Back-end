@@ -36,8 +36,13 @@ app.use(express.json());
 //cors
 app.use(cors());
 
+if (process.env.NODE_ENV === "production") {
+  // app.use(express.static("client/build"));
+  app.use("Back-end", express.static("src/app.js"));
+  
+}
+
 // Rotas
-app.use(express.static(__dirname + './src/app.js'));
 app.use(express.static("v1/", indexRoute));
 app.use("v1/consultorio", consultorioRoute);
 app.use("v1/medico", medicoRoute);
