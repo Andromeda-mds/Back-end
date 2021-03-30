@@ -6,8 +6,12 @@ const debug = require("debug")("Back-end:server");
 const express = require("express");
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('src/app.js'));
+	app.use(express.static('src/app'));
 }
+
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'src/app', 'index.html'));
+});
 
 // This function defaults the server port according to the use of the environment.
 const normalizePort = (value) => {
