@@ -38,7 +38,7 @@ app.use(cors());
 
 // Rotas
 app.use(express.static(__dirname + './src/app.js'));
-app.use("v1/", indexRoute);
+app.use(express.static("v1/", indexRoute));
 app.use("v1/consultorio", consultorioRoute);
 app.use("v1/medico", medicoRoute);
 app.use("v1/agenda", agendaRoute);
