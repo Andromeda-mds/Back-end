@@ -47,6 +47,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 //cors
 app.use(cors());
 
@@ -61,9 +62,9 @@ app.use(cors());
 //   res.sendFile(path.join(__dirname + "/build/index.html"));
 // });
 // Rotas
-app.use("v1/", indexRoute);
-app.use("v1/consultorio", consultorioRoute);
-app.use("v1/medico", medicoRoute);
-app.use("v1/agenda", agendaRoute);
+app.use(express.static("/", indexRoute));
+app.use("/consultorio", consultorioRoute);
+app.use("/medico", medicoRoute);
+app.use("/agenda", agendaRoute);
 
 module.exports = app;
