@@ -13,6 +13,10 @@ const schema = extendSchema(PessoaSchema, {
     type: String,
     required: true,
   },
+  especialidade: {
+    type: String,
+    required: true
+  },
   agenda: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Agenda",

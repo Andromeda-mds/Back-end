@@ -2,6 +2,7 @@
 
 const express = require("express");
 const mongoClient = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
@@ -31,6 +32,9 @@ const agendaRoute = require("./routes/agenda-route");
 //
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+//cors
+app.use(cors());
 
 // Rotas
 app.use("/", indexRoute);

@@ -9,3 +9,7 @@ exports.cadastrarAgenda = async (data) => {
     await novaAgenda.save();
     return res;
 }
+
+exports.adicionarHorarioDisponivel = async (agendaId, data) => {
+    
+}

@@ -5,6 +5,8 @@ const Medico = mongoose.model("Medico");
 
 exports.cadastrarMedico = async (data) => {
   var medico = new Medico(data);
+  var _senhaAcesso = makeid(8);
+  medico.senhaAcesso = _senhaAcesso;
   await medico.save();
 };
 
@@ -18,6 +20,7 @@ exports.atualizarMedico = async (id, data) => {
       telefone: data.telefone,
       endereco: data.endereco,
       senhaAcesso: data.senhaAcesso,
+      especialidade: data.especialidade,
       crm: data.crm,
     },
   });
@@ -29,7 +32,6 @@ exports.buscarMedicoById = async (id) => {
 };
 
 exports.cadastrarAgendaDoMedico = async (medicoId, agendaId) => {
-
   console.log(agendaId);
   const res = await Medico.findByIdAndUpdate(medicoId, {
     $set: {
@@ -46,12 +48,12 @@ exports.buscarMedicoByNome = async (nomeCompleto) => {
 };
 
 exports.buscarMedicoByCRM = async (crm) => {
-  const query = Medico.where({crm:crm});
+  const query = Medico.where({ crm: crm });
   const res = await query.findOne();
   return res;
-}
+};
 
 exports.listarMedicos = async () => {
   const res = await Medico.find();
   return res;
-}
+};
