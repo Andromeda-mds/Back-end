@@ -6,9 +6,9 @@ const debug = require("debug")("Back-end:server");
 const express = require("express");
 const path = require("path")
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('src/app'));
-}
+// if (process.env.NODE_ENV === 'production') {
+// 	app.use(express.static('src/app'));
+// }
 
 // app.get('*', (request, response) => {
 // 	response.sendFile(path.join(__dirname, 'src/app'));
