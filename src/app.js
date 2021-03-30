@@ -61,7 +61,7 @@ app.use(cors());
 //   res.sendFile(path.join(__dirname + "/build/index.html"));
 // });
 // Rotas
-app.use(express.static("v1/", indexRoute));
+app.use("v1/", indexRoute);
 app.use("v1/consultorio", consultorioRoute);
 app.use("v1/medico", medicoRoute);
 app.use("v1/agenda", agendaRoute);
