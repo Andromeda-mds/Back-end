@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'src/app'));
+	response.sendFile(path.join('src/app'));
 });
 
 // This function defaults the server port according to the use of the environment.
