@@ -1,4 +1,4 @@
-"use strict";
+"use-strict";
 
 const mongoose = require("mongoose");
 const extendSchema = require("mongoose-extend-schema");
@@ -12,6 +12,10 @@ const schema = extendSchema(PessoaSchema, {
   crm: {
     type: String,
     required: true,
+  },
+  especialidade: {
+    type: String,
+    required: true
   },
   agenda: {
     type: mongoose.Schema.Types.ObjectId,
