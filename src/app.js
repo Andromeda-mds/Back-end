@@ -8,8 +8,7 @@ const cors = require("cors");
 const app = express();
 
 // conectando com o DB
-const uri = process.env.MONGO_URL
-  "mongodb+srv://Victor:ztzz1517@cluster0.f432g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URL;
 
 const connectDB = async () => {
   await mongoClient.connect(uri, {
