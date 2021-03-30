@@ -5,6 +5,10 @@ const http = require("http");
 const debug = require("debug")("Back-end:server");
 const express = require("express");
 
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('src/app.js'));
+}
+
 // This function defaults the server port according to the use of the environment.
 const normalizePort = (value) => {
   const port = parseInt(value, 10);
