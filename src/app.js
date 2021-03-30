@@ -31,17 +31,17 @@ const medicoRoute = require("./routes/medico-route");
 const agendaRoute = require("./routes/agenda-route");
 
 //
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  // res.header(
-  //   'Access-Control-Allow-Header'
-    // 'Origin, Content-Type, Accept'
-  // );
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    return res.status(200).send({});
-  }
-})
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header(
+//     'Access-Control-Allow-Header',
+//     'Origin, Content-Type, Accept'
+//   );
+//   if (req.method === 'OPTIONS') {
+//     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+//     return res.status(200).send({});
+//   }
+// })
 
 //
 app.use(express.urlencoded({ extended: true }));
@@ -62,7 +62,7 @@ app.use(cors());
 //   res.sendFile(path.join(__dirname + "/build/index.html"));
 // });
 // Rotas
-app.use(express.static("/", indexRoute));
+app.use("/", indexRoute);
 app.use("/consultorio", consultorioRoute);
 app.use("/medico", medicoRoute);
 app.use("/agenda", agendaRoute);
