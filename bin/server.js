@@ -3,6 +3,7 @@
 const app = require('../src/app');
 const http = require("http");
 const debug = require("debug")("Back-end:server");
+const express = require("express");
 
 // This function defaults the server port according to the use of the environment.
 const normalizePort = (value) => {
