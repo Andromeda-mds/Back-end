@@ -42,11 +42,11 @@ app.use(cors());
 //   app.use("Back-end", express.static("src/app"));
 
 // }
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname + "/build/index.html"));
-});
+// app.get("*", function (req, res) {
+//   res.sendFile(path.join(__dirname + "/build/index.html"));
+// });
 // Rotas
 app.use(express.static("v1/", indexRoute));
 app.use("v1/consultorio", consultorioRoute);
