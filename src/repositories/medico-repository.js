@@ -5,8 +5,6 @@ const Medico = mongoose.model("Medico");
 
 exports.cadastrarMedico = async (data) => {
   var medico = new Medico(data);
-  var _senhaAcesso = makeid(8);
-  medico.senhaAcesso = _senhaAcesso;
   await medico.save();
 };
 
