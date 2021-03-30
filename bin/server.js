@@ -50,7 +50,7 @@ const onListening = () => {
         `port ${address.port}`;
     debug(`Listening on ${bind}`);
 }
-app.use(express.static(__dirname + '/Back-end/bin'));
+app.use(express.static(__dirname + './bin'));
 server.listen(port, () => console.log(`API rodando na porta ${port}`));
 server.on("error", onError);
 server.on("listening", onListening);
