@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const express = require("express");
 const mongoClient = require("mongoose");
 const cors = require("cors");
@@ -7,7 +8,7 @@ const cors = require("cors");
 const app = express();
 
 // conectando com o DB
-const uri =
+const uri = process.env.MONGO_URL
   "mongodb+srv://Victor:ztzz1517@cluster0.f432g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 const connectDB = async () => {
@@ -37,9 +38,9 @@ app.use(express.json());
 app.use(cors());
 
 // Rotas
-app.use("/", indexRoute);
-app.use("/consultorio", consultorioRoute);
-app.use("/medico", medicoRoute);
-app.use("/agenda", agendaRoute);
+app.use("v1/", indexRoute);
+app.use("v1/consultorio", consultorioRoute);
+app.use("v1/medico", medicoRoute);
+app.use("v1/agenda", agendaRoute);
 
 module.exports = app;
