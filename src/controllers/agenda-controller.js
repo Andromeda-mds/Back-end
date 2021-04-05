@@ -20,5 +20,4 @@ exports.CadastrarAgenda = async (req, res, next) => {
       message: "Erro ao cadastrar a agenda.",
     });
   }
-
 };
