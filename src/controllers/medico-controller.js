@@ -1,10 +1,9 @@
-"use-strict";
+"use strict";
 
 const mongoose = require("mongoose");
 const repository = require("../repositories/medico-repository");
 const md5 = require("md5");
 const authService = require("../auth");
-const medico = require("../models/medico");
 
 exports.CadastrarMedico = async (req, res, next) => {
   const data = req.body;
@@ -117,16 +116,15 @@ exports.authenticate = async (req, res, next) => {
       senhaAcesso: md5(req.body.senhaAcesso),
     });
 
-    console.log(medico);
-
-    if(!medico){
+    if (!medico) {
       res.status(404).send({
-        message: "Usuário ou Senha inválidos"
+        message: "Usuário ou Senha inválidos",
       });
       return;
     }
 
     const token = await authService.generateToken({
+      _id: medico._id,
       email: medico.email,
       nome: medico.nomeCompleto,
     });
@@ -135,12 +133,12 @@ exports.authenticate = async (req, res, next) => {
       token: token,
       data: {
         email: medico.email,
-        nome: medico.nomeCompleto
-      }
-    })
+        nome: medico.nomeCompleto,
+      },
+    });
   } catch (e) {
     res.status(500).send({
-      message: 'não foi possível autenticar o usuário'
-    })
+      message: "não foi possível autenticar o usuário",
+    });
   }
 };
