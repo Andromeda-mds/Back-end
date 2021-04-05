@@ -2,6 +2,9 @@
 
 const mongoose = require("mongoose");
 const repository = require("../repositories/medico-repository");
+const md5 = require("md5");
+const authService = require("../auth");
+const medico = require("../models/medico");
 
 exports.CadastrarMedico = async (req, res, next) => {
   const data = req.body;
@@ -13,7 +16,17 @@ exports.CadastrarMedico = async (req, res, next) => {
     });
 
   try {
-    await repository.cadastrarMedico(data);
+    await repository.cadastrarMedico({
+      nomeCompleto: req.body.nomeCompleto,
+      cpf: req.body.cpf,
+      dataNascimento: req.body.dataNascimento,
+      email: req.body.email,
+      telefone: req.body.telefone,
+      endereco: req.body.endereco,
+      especialidade: req.body.especialidade,
+      crm: req.body.crm,
+      senhaAcesso: md5(req.body.senhaAcesso),
+    });
     res.status(201).send({
       message: "Médico cadastrado com sucesso.",
       item: req.body,
@@ -73,27 +86,61 @@ exports.BuscarMedicoByNome = async (req, res, next) => {
   }
 };
 
-
 exports.BuscarMedicoByCRM = async (req, res, next) => {
   const crm = req.params.crm;
 
-  try{
+  try {
     const data = await repository.buscarMedicoByCRM(crm);
     res.status(201).send(data);
-  }catch(e){
+  } catch (e) {
     res.status(500).send({
-      message: "Não foi possível processar a requisição."
+      message: "Não foi possível processar a requisição.",
     });
   }
-}
+};
 
 exports.ListarMedicos = async (req, res, nex) => {
-  try{
+  try {
     const data = await repository.listarMedicos();
     res.status(200).send(data);
-  }catch(e){
+  } catch (e) {
     res.status(500).send({
-      message: "Ops, tivemos algum problema.\nTente novamente mais tarde"
+      message: "Ops, tivemos algum problema.\nTente novamente mais tarde",
+    });
+  }
+};
+
+exports.authenticate = async (req, res, next) => {
+  try {
+    const medico = await repository.authenticate({
+      email: req.body.email,
+      senhaAcesso: md5(req.body.senhaAcesso),
+    });
+
+    console.log(medico);
+
+    if(!medico){
+      res.status(404).send({
+        message: "Usuário ou Senha inválidos"
+      });
+      return;
+    }
+
+    const token = await authService.generateToken({
+      email: medico.email,
+      nome: medico.nomeCompleto,
+    });
+
+    res.status(201).send({
+      token: token,
+      data: {
+        email: medico.email,
+        nome: medico.nomeCompleto
+      }
+    })
+  } catch (e) {
+    res.status(500).send({
+      message: 'não foi possível autenticar o usuário'
     })
   }
-}
+};
