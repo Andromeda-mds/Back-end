@@ -1,4 +1,4 @@
-"use-strict";
+"use strict";
 
 const mongoose = require("mongoose");
 const Medico = mongoose.model("Medico");
@@ -53,5 +53,13 @@ exports.buscarMedicoByCRM = async (crm) => {
 
 exports.listarMedicos = async () => {
   const res = await Medico.find();
+  return res;
+};
+
+exports.authenticate = async (data) => {
+  const res = await Medico.findOne({
+    email: data.email,
+    senhaAcesso: data.senhaAcesso,
+  });
   return res;
 };

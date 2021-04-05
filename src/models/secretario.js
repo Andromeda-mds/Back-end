@@ -1,4 +1,4 @@
-"use-strict";
+"use strict";
 
 const mongoose = require("mongoose");
 const extendSchema = require("mongoose-extend-schema");
@@ -11,4 +11,4 @@ const schema = extendSchema(FuncionarioSchema, {
     }
 });
 
-module.exports = mongoose.model("secretario", schema);
+module.exports = mongoose.model("Secretario", schema);

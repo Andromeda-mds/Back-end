@@ -1,14 +1,11 @@
-"use-strict";
+"use strict";
 
 const mongoose = require("mongoose");
 const extendSchema = require("mongoose-extend-schema");
-const PessoaSchema = require("./pessoa");
+// const PessoaSchema = require("./pessoa");
+const FuncionarioSchema = require("./funcionario");
 
-const schema = extendSchema(PessoaSchema, {
-  senhaAcesso: {
-    type: String,
-    required: true,
-  },
+const schema = extendSchema(FuncionarioSchema, {
   crm: {
     type: String,
     required: true,

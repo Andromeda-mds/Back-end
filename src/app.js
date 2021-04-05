@@ -4,9 +4,10 @@ require("dotenv").config();
 const express = require("express");
 const mongoClient = require("mongoose");
 const cors = require("cors");
-const path = require("path")
-
+const path = require("path");
 const app = express();
+
+global.SALT_KEY = process.env.SALT_KEY;
 
 // conectando com o DB
 const uri = process.env.MONGO_URL;
@@ -16,7 +17,6 @@ const connectDB = async () => {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
-
   console.log("DB connected.");
 };
 connectDB();
@@ -24,11 +24,13 @@ connectDB();
 const consultorio = require("./models/consultorio");
 const medico = require("./models/medico");
 const agenda = require("./models/agenda");
+const secretario = require("./models/secretario");
 // carregando rotas
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
 const medicoRoute = require("./routes/medico-route");
 const agendaRoute = require("./routes/agenda-route");
+const secretarioRoute = require("./routes/secretario-route");
 
 //
 // app.use((req, res, next) => {
@@ -47,7 +49,6 @@ const agendaRoute = require("./routes/agenda-route");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 //cors
 app.use(cors());
 
@@ -61,10 +62,12 @@ app.use(cors());
 // app.get("*", function (req, res) {
 //   res.sendFile(path.join(__dirname + "/build/index.html"));
 // });
+
 // Rotas
 app.use("/", indexRoute);
 app.use("/consultorio", consultorioRoute);
 app.use("/medico", medicoRoute);
 app.use("/agenda", agendaRoute);
+app.use("/secretario", secretarioRoute);
 
 module.exports = app;
