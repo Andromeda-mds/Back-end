@@ -9,11 +9,7 @@ exports.CadastrarMedico = async (req, res, next) => {
   const data = req.body;
 
   // Fail fast validate
-  if (data.nomeCompleto.length < 3)
-    return res.status(400).send({
-      message: "O nome deve conter, pelo menos, 3 caracteres.",
-    });
-
+  
   try {
     await repository.cadastrarMedico({
       nomeCompleto: req.body.nomeCompleto,
