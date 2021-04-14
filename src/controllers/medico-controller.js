@@ -4,11 +4,17 @@ const mongoose = require("mongoose");
 const repository = require("../repositories/medico-repository");
 const md5 = require("md5");
 const authService = require("../auth");
+const validation = require("../services/inputValidator");
 
 exports.CadastrarMedico = async (req, res, next) => {
   const data = req.body;
 
   // Fail fast validate
+
+  validation.validateNomeCompleto(data);
+  validation.validateCPF(data);
+  validation.validateEmail(data);
+  validation.validateCRM(data);
   
   try {
     await repository.cadastrarMedico({
@@ -36,6 +42,8 @@ exports.CadastrarMedico = async (req, res, next) => {
 exports.AtualizarMedico = async (req, res, next) => {
   const id = req.params.id;
   const data = req.body;
+
+  validation.validateNovaSenha(data);
 
   try {
     repository.atualizarMedico(id, data);
