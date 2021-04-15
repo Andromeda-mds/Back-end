@@ -4,8 +4,15 @@ const mongoose = require("mongoose");
 const repository = require("../repositories/secretario-repository");
 const md5 = require("md5");
 const authService = require("../auth");
+const validation = require("../services/inputValidator");
 
 exports.CadastrarSecretario = async (req, res, next) => {
+  const data = req.body;
+
+  validation.validateNomeCompleto(data);
+  validation.validateCPF(data);
+  validation.validateEmail(data);
+
   try {
     await repository.cadastrarSecretario({
       nomeCompleto: req.body.nomeCompleto,
@@ -34,6 +41,9 @@ exports.authenticate = async (req, res, next) => {
       email: req.body.email,
       senhaAcesso: md5(req.body.senhaAcesso),
     });
+    
+    console.log("Teste")
+    
 
     if (!secretario) {
       res.status(404).send({
@@ -65,6 +75,8 @@ exports.authenticate = async (req, res, next) => {
 exports.AtualizarSecretario = async (req, res, next) => {
   const id = req.params.id;
   const data = req.body;
+
+  validation.validateNovaSenha(data);
 
   try {
     repository.atualizarSecretario(id, data);
