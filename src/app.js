@@ -4,7 +4,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoClient = require("mongoose");
 const cors = require("cors");
-const path = require("path");
 const app = express();
 
 global.SALT_KEY = process.env.SALT_KEY;
