@@ -1,59 +1,54 @@
 "use strict";
 
-exports.validateNomeCompleto = function (data){
-    if (data.nomeCompleto.length < 3)
-      return res.status(400).send({
-        message: "O nome deve conter, pelo menos, 3 caracteres.",
-      });
-}
+const EResponseValidate = require("../Enums/EResponseValidate");
 
-exports.validateCRM = function (data){
-    if (parseInt(data.crm) == isNaN || (data.crm.length < 6)){
-        return res.status(400).send({
-          message: "O CRM deve conter apenas números de, pelo menos, 6 digitos."
-        })
-    }
-}
+exports.validateNomeCompleto = (data) => {
+  if (data.nomeCompleto.length >= 3) return EResponseValidate.valid;
+  return EResponseValidate.invalid;
+};
 
-exports.validateEmail = function (data){
-    const re = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
-    
-    if(re.test(data.email) == 'false'){
-      return res.status(400).send({
-        message: "Email inválido."
-      })
-    }
-}
+exports.validateCRM = (data) => {
+  if (isNaN(parseInt(data.crm)) == false || data.crm.length >= 6)
+    return EResponseValidate.valid;
+  return EResponseValidate.invalid;
+};
 
-exports.validateCPF = function (data){
-    var soma = 0;
-    var resto;
-    var inputCPF = data.cpf
+exports.validateEmail = (data) => {
+  const re = /\S+@\S+\.\S+/;
 
-    if(inputCPF == '00000000000') return res.status(400).send({
-      message: "CPF inválido."
-    });
-    for(i=1; i<=9; i++) soma = soma + parseInt(inputCPF.substring(i-1, i)) * (11 - i);
-    resto = (soma * 10) % 11;
+  if (re.test(data.email)) return EResponseValidate.valid;
 
-    if((resto == 10) || (resto == 11)) resto = 0;
-    if(resto != parseInt(inputCPF.substring(9, 10))) return res.status(400).send({
-      message: "CPF inválido."
-    });
+  return EResponseValidate.invalid;
+};
 
-    soma = 0;
-    for(i = 1; i <= 10; i++) soma = soma + parseInt(inputCPF.substring(i-1, i))*(12-i);
-    resto = (soma * 10) % 11;
+exports.validateCPF = (data, res) => {
+  var soma = 0;
+  var resto;
+  var inputCPF = data.cpf;
+  var listIsNotValid = [];
 
-    if((resto == 10) || (resto == 11)) resto = 0;
-    if(resto != parseInt(inputCPF.substring(10, 11))) return res.status(400).send({
-      message: "CPF inválido."
-    });
-}
+  if (inputCPF == "00000000000") listIsNotValid.push(1);
+  for (let i = 1; i <= 9; i++)
+    soma = soma + parseInt(inputCPF.substring(i - 1, i)) * (11 - i);
+  resto = (soma * 10) % 11;
 
-exports.validateNovaSenha = function (data){
-    if (data.senhaAcesso < 5)
-      return res.status(400).send({
-        message: "A senha deve conter, pelo menos, 5 caracteres.",
-      });
-}
+  if (resto == 10 || resto == 11) resto = 0;
+  if (resto != parseInt(inputCPF.substring(9, 10))) listIsNotValid.push(1);
+
+  soma = 0;
+  for (let i = 1; i <= 10; i++)
+    soma = soma + parseInt(inputCPF.substring(i - 1, i)) * (12 - i);
+  resto = (soma * 10) % 11;
+
+  if (resto == 10 || resto == 11) resto = 0;
+  if (resto != parseInt(inputCPF.substring(10, 11))) listIsNotValid.push(1);
+
+  if (listIsNotValid.length == 0) return EResponseValidate.valid;
+
+  return EResponseValidate.invalid;
+};
+
+exports.validateNovaSenha = (data) => {
+  if (data.senhaAcesso >= 5) return EResponseValidate.Responses.valid;
+  return EResponseValidate.invalid;
+};

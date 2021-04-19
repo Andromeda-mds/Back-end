@@ -3,11 +3,6 @@
 const mongoose = require("mongoose");
 const Secretario = mongoose.model("Secretario");
 
-exports.cadastrarSecretario = async (data) => {
-  var secretario = new Secretario(data);
-  await secretario.save();
-};
-
 exports.atualizarSecretario = async (id, data) => {
   await Secretario.findByIdAndUpdate(id, {
     $set: {
