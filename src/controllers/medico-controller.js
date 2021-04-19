@@ -5,6 +5,10 @@ const repository = require("../repositories/medico-repository");
 const md5 = require("md5");
 const authService = require("../auth");
 const validation = require("../services/inputValidator");
+const funcionarioRepository = require("../repositories/funcionario-repository");
+const Medico = mongoose.model("Medico");
+
+
 
 exports.CadastrarMedico = async (req, res, next) => {
   const data = req.body;
@@ -17,7 +21,7 @@ exports.CadastrarMedico = async (req, res, next) => {
   validation.validateCRM(data);
   
   try {
-    await repository.cadastrarMedico({
+    await funcionarioRepository.cadastrarFuncionario({
       nomeCompleto: req.body.nomeCompleto,
       cpf: req.body.cpf,
       dataNascimento: req.body.dataNascimento,
@@ -27,7 +31,7 @@ exports.CadastrarMedico = async (req, res, next) => {
       especialidade: req.body.especialidade,
       crm: req.body.crm,
       senhaAcesso: md5(req.body.senhaAcesso),
-    });
+    }, Medico);
     res.status(201).send({
       message: "Médico cadastrado com sucesso.",
       item: req.body,

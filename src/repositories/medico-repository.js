@@ -3,11 +3,6 @@
 const mongoose = require("mongoose");
 const Medico = mongoose.model("Medico");
 
-exports.cadastrarMedico = async (data) => {
-  var medico = new Medico(data);
-  await medico.save();
-};
-
 exports.atualizarMedico = async (id, data) => {
   await Medico.findByIdAndUpdate(id, {
     $set: {

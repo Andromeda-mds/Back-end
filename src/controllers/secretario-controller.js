@@ -2,19 +2,43 @@
 
 const mongoose = require("mongoose");
 const repository = require("../repositories/secretario-repository");
+const funcionarioRepository = require("../repositories/funcionario-repository");
 const md5 = require("md5");
 const authService = require("../auth");
 const validation = require("../services/inputValidator");
+const EResponseValidate = require("../Enums/EResponseValidate");
+const Secretario = mongoose.model("Secretario");
+
 
 exports.CadastrarSecretario = async (req, res, next) => {
   const data = req.body;
 
-  validation.validateNomeCompleto(data);
-  validation.validateCPF(data);
-  validation.validateEmail(data);
+  if(validation.validateNomeCompleto(data) == EResponseValidate.invalid)
+  {
+    return res.status(400).send({
+      message: "O nome deve conter, pelo menos, 3 caracteres.",
+      nomeCompleto: data.nomeCompleto
+    })
+  }
+
+  if(validation.validateCPF(data) == EResponseValidate.invalid)
+  {
+    return res.status(400).send({
+      message: "CPF inválido",
+      cpf: data.cpf
+    })
+  }
+
+  if(validation.validateEmail(data) == EResponseValidate.invalid)
+  {
+    return res.status(400).send({
+      message: "Email inválido.",
+      email: data.email
+    })
+  }
 
   try {
-    await repository.cadastrarSecretario({
+    await funcionarioRepository.cadastrarFuncionario({
       nomeCompleto: req.body.nomeCompleto,
       cpf: req.body.cpf,
       dataNascimento: req.body.dataNascimento,
@@ -23,7 +47,7 @@ exports.CadastrarSecretario = async (req, res, next) => {
       endereco: req.body.endereco,
       matricula: req.body.matricula,
       senhaAcesso: md5(req.body.senhaAcesso),
-    });
+    }, Secretario);
     res.status(201).send({
       message: "Secretário cadastrado com sucesso.",
       item: req.body,
