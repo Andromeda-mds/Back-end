@@ -15,10 +15,29 @@ exports.CadastrarMedico = async (req, res, next) => {
 
   // Fail fast validate
 
-  validation.validateNomeCompleto(data);
-  validation.validateCPF(data);
-  validation.validateEmail(data);
-  validation.validateCRM(data);
+  if(validation.validateNomeCompleto(data) == EResponseValidate.invalid)
+  {
+    return res.status(400).send({
+      message: "O nome deve conter, pelo menos, 3 caracteres.",
+      nomeCompleto: data.nomeCompleto
+    })
+  }
+
+  if(validation.validateCPF(data) == EResponseValidate.invalid)
+  {
+    return res.status(400).send({
+      message: "CPF inválido",
+      cpf: data.cpf
+    })
+  }
+
+  if(validation.validateEmail(data) == EResponseValidate.invalid)
+  {
+    return res.status(400).send({
+      message: "Email inválido.",
+      email: data.email
+    })
+  }
   
   try {
     await funcionarioRepository.cadastrarFuncionario({

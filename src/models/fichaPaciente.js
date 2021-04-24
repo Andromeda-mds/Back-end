@@ -11,10 +11,12 @@ const schema = new Schema({
   prontuario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Prontuario",
+    required: true,
   },
   paciente: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Paciente",
+    required: true
   }
 });
 
