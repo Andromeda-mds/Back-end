@@ -24,12 +24,16 @@ const consultorio = require("./models/consultorio");
 const medico = require("./models/medico");
 const agenda = require("./models/agenda");
 const secretario = require("./models/secretario");
+const paciente = require("./models/paciente");
+const fichaPaciente = require("./models/fichaPaciente");
+const prontuario = require("./models/prontuario");
 // carregando rotas
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
 const medicoRoute = require("./routes/medico-route");
 const agendaRoute = require("./routes/agenda-route");
 const secretarioRoute = require("./routes/secretario-route");
+const pacienteRoute = require("./routes/paciente-route");
 
 //
 // app.use((req, res, next) => {
@@ -68,5 +72,6 @@ app.use("/consultorio", consultorioRoute);
 app.use("/medico", medicoRoute);
 app.use("/agenda", agendaRoute);
 app.use("/secretario", secretarioRoute);
+app.use("/paciente", pacienteRoute);
 
 module.exports = app;

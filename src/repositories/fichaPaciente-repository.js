@@ -2,6 +2,7 @@
 
 const mongoose = require("mongoose");
 const Ficha = mongoose.model("FichaPaciente");
+const Paciente = mongoose.model("Paciente");
 
 exports.cadastrarFicha = async (data) => {
   var ficha = new Ficha(data);
@@ -9,8 +10,22 @@ exports.cadastrarFicha = async (data) => {
   return ficha;
 };
 
-exports.atualizarFicha = async (data) => {};
+exports.atualizarFicha = async (id, data) => {
+  await Ficha.findOneAndUpdate(id, {
+    $set: {
+      observacoes: data.observacoes,
+    },
+  });
+};
 
-exports.buscarFichaById = async (id) => {};
+exports.buscarFichaById = async (id) => {
+  var data = await Ficha.findById(id);
+  return data;
+};
 
-exports.buscarFichaByPaciente = async (paciente) => {};
+exports.buscarFichaByPaciente = async (pacienteId) => {
+  var _paciente = await Paciente.findById(pacienteId);
+  var query = await Ficha.where({ paciente: _paciente });
+  var data = await query.findOne();
+  return data;
+};

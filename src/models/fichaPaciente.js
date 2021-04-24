@@ -11,7 +11,7 @@ const schema = new Schema({
   prontuario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Prontuario",
-    required: true,
+    required: false,
   },
   paciente: {
     type: mongoose.Schema.Types.ObjectId,
