@@ -36,35 +36,11 @@ const secretarioRoute = require("./routes/secretario-route");
 const pacienteRoute = require("./routes/paciente-route");
 
 //
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header(
-//     'Access-Control-Allow-Header',
-//     'Origin, Content-Type, Accept'
-//   );
-//   if (req.method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-//     return res.status(200).send({});
-//   }
-// })
-
-//
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //cors
 app.use(cors());
-
-// if (process.env.NODE_ENV === "production") {
-//   // app.use(express.static("client/build"));
-//   app.use("Back-end", express.static("src/app"));
-
-// }
-// app.use(express.static(path.join(__dirname, "build")));
-
-// app.get("*", function (req, res) {
-//   res.sendFile(path.join(__dirname + "/build/index.html"));
-// });
 
 // Rotas
 app.use("/", indexRoute);

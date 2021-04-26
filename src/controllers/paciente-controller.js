@@ -63,8 +63,67 @@ exports.CadastrarPaciente = async (req, res, next) => {
   }
 };
 
-exports.AtualizarPaciente = async (req, res, next) => {};
+exports.AtualizarPaciente = async (req, res, next) => {
+  const _id = req.params.id;
+  const data = req.body;
 
-exports.BuscarPacienteById = async (req, res, next) => {};
+  if (validation.validateNomeCompleto(data) == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "O nome deve conter, pelo menos, 3 caracteres.",
+      nomeCompleto: data.nomeCompleto,
+    });
+  }
 
-exports.BuscarPacienteByName = async (req, res, next) => {};
+  if (validation.validateCPF(data) == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "CPF inválido",
+      cpf: data.cpf,
+    });
+  }
+
+  if (validation.validateEmail(data) == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "Email inválido.",
+      email: data.email,
+    });
+  }
+
+  try {
+    await pacienteRepository.atualizarPaciente(_id, data);
+    res.status(201).send({
+      message: "Paciente atualizado com sucesso.",
+      item: data,
+    });
+  } catch {
+    res.status(500).send({
+      message: "Não foi possível executar a requisição.",
+      item: data,
+    });
+  }
+};
+
+exports.BuscarPacienteById = async (req, res, next) => {
+  const _id = req.params.id;
+  try {
+    var _paciente = await pacienteRepository.buscarPacienteById(_id);
+    if (_paciente != null) res.status(201).send({ item: _paciente });
+    res.status(404).send({ message: "Paciente não encontrado" });
+  } catch {
+    res
+      .status(500)
+      .send({ message: "Não foi possível executar a requisição." });
+  }
+};
+
+exports.BuscarPacienteByName = async (req, res, next) => {
+  const _nome = req.params.nome;
+  try {
+    var _paciente = await pacienteRepository.buscarPacienteByName(_nome);
+    if (_paciente != null) res.status(201).send({ item: _paciente });
+    res.status(404).send({ message: "Paciente não encontrado" });
+  } catch {
+    res
+      .status(500)
+      .send({ message: "Não foi possível executar a requisição." });
+  }
+};

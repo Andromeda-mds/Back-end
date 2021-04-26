@@ -24,3 +24,14 @@ exports.atualizarPaciente = async (id, data) => {
     },
   });
 };
+
+exports.buscarPacienteById = async (id) => {
+  const res = await Paciente.findById(id);
+  return res;
+};
+
+exports.buscarPacienteByName = async (name) => {
+  const query = Paciente.where({ nomeCompleto: name });
+  const res = await query.findOne();
+  return res;
+};
