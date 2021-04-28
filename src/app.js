@@ -27,6 +27,7 @@ const secretario = require("./models/secretario");
 const paciente = require("./models/paciente");
 const fichaPaciente = require("./models/fichaPaciente");
 const prontuario = require("./models/prontuario");
+const consulta = require("./models/consulta");
 // carregando rotas
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
@@ -34,6 +35,7 @@ const medicoRoute = require("./routes/medico-route");
 const agendaRoute = require("./routes/agenda-route");
 const secretarioRoute = require("./routes/secretario-route");
 const pacienteRoute = require("./routes/paciente-route");
+const consultaRoute = require("./routes/consultas-route");
 
 //
 app.use(express.urlencoded({ extended: true }));
@@ -49,5 +51,6 @@ app.use("/medico", medicoRoute);
 app.use("/agenda", agendaRoute);
 app.use("/secretario", secretarioRoute);
 app.use("/paciente", pacienteRoute);
+app.use("/consulta", consultaRoute);
 
 module.exports = app;

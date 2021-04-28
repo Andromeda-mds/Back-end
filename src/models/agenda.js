@@ -19,6 +19,18 @@ const schema = new Schema({
             enum: ['1', '2', '3', '4']
         }
     }],
+    horariosPreenchidos: [{
+        consulta: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Consulta",
+            required: false
+        },
+        paciente: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Paciente",
+            required: false
+        }
+    }]
 });
 
 module.exports = mongoose.model("Agenda", schema);

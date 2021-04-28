@@ -16,7 +16,14 @@ exports.atualizarFicha = async (id, data) => {
       observacoes: data.observacoes,
     },
   });
-};
+}; 
+
+exports.adicionarConsulta = async (fichaId, consultaId) => {
+  var _ficha = await Ficha.findById(fichaId);
+  _ficha.consultas.unshift(consultaId);
+  var res = await _ficha.save();
+  return res; 
+}
 
 exports.buscarFichaById = async (id) => {
   var data = await Ficha.findById(id);
