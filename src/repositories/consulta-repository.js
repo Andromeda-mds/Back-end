@@ -6,19 +6,18 @@ const Consulta = mongoose.model("Consulta");
 
 exports.cadastrarConsulta = async (data) => {
   var consulta = new Consulta(data);
-  await consulta.save();
-  return consulta;
+  var res = await consulta.save();
+  return res;
 };
 
 exports.atualizarConsulta = async (id, data) => {
-  try{
+  try {
     var _consulta = await Consulta.findById(id);
     _consulta.medico = data.medico != null ? data.medico : _consulta.medico;
-    _consulta.horario = data.horario != null ? data.horario : _consulta.horario;
+    _consulta.data = data.data != null ? data.data : _consulta.data;
     await _consulta.save();
     return EDbStatusReturn.DB_SAVED_OK;
-  }
-  catch{
+  } catch {
     return EDbStatusReturn.DB_GENERAL_EXCEPTION;
   }
 };
@@ -28,4 +27,8 @@ exports.buscarConsultaById = async (id) => {
   return _consulta;
 };
 
-exports.buscarConsultaByMedico = async (medico) => {};
+exports.buscarConsultaByMedico = async (medicoid) => {
+  var query = Consulta.where({ medico: medicoid });
+  var _consultas = await query.find();
+  return _consultas;
+};

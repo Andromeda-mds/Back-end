@@ -25,7 +25,6 @@ exports.buscarMedicoById = async (id) => {
 };
 
 exports.cadastrarAgendaDoMedico = async (medicoId, agendaId) => {
-  console.log(agendaId);
   const res = await Medico.findByIdAndUpdate(medicoId, {
     $set: {
       agenda: agendaId,

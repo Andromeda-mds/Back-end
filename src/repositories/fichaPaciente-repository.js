@@ -4,11 +4,12 @@ const mongoose = require("mongoose");
 const Ficha = mongoose.model("FichaPaciente");
 const Paciente = mongoose.model("Paciente");
 const EDbStatusReturn = require("../Enums/EDbStatusReturn");
+const pacienteRepository = require("../repositories/paciente-repository");
 
 exports.cadastrarFicha = async (data) => {
   var ficha = new Ficha(data);
-  await ficha.save();
-  return ficha;
+  var res = await ficha.save();
+  return res;
 };
 
 exports.atualizarFicha = async (id, data) => {
@@ -40,8 +41,8 @@ exports.buscarFichaById = async (id) => {
 };
 
 exports.buscarFichaByPaciente = async (pacienteId) => {
-  var _paciente = await Paciente.findById(pacienteId);
-  var query = await Ficha.where({ paciente: _paciente });
+  var _paciente = await pacienteRepository.buscarPacienteById(pacienteId);
+  var query = Ficha.where({ paciente: _paciente._id });
   var data = await query.findOne();
   return data;
 };

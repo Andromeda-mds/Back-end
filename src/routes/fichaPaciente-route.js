@@ -8,5 +8,6 @@ const authService = require('../auth');
 const fichaController = require("../controllers/fichaPaciente-controller");
 
 router.get("/consultas/:id", authService.authorize, fichaController.ListarTodasConsultas);
+router.get("/:id", authService.authorize, fichaController.BuscarFichaByPaciente);
 
 module.exports = router;
