@@ -9,13 +9,24 @@ const schema = new Schema({
     ref: "Medico",
     required: true,
   },
-  horario: {
-    type: String,
-    required: true,
+  data: {
+    dia: {
+      type: String,
+      required: true,
+    },
+    periodo: {
+      type: String,
+      required: true,
+    },
+    horario: {
+      type: String,
+      required: true,
+      enum: ["1", "2", "3", "4"],
+    },
   },
   anamnese: {
     type: String,
-    required: true,
+    required: false,
   },
   diagnostico: {
     type: String,

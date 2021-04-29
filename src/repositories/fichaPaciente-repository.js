@@ -3,6 +3,7 @@
 const mongoose = require("mongoose");
 const Ficha = mongoose.model("FichaPaciente");
 const Paciente = mongoose.model("Paciente");
+const EDbStatusReturn = require("../Enums/EDbStatusReturn");
 
 exports.cadastrarFicha = async (data) => {
   var ficha = new Ficha(data);
@@ -11,19 +12,27 @@ exports.cadastrarFicha = async (data) => {
 };
 
 exports.atualizarFicha = async (id, data) => {
-  await Ficha.findOneAndUpdate(id, {
-    $set: {
-      observacoes: data.observacoes,
-    },
-  });
-}; 
+  try {
+    var _ficha = await Ficha.findById(id);
+    _ficha.observacoes = data.observacoes != null ? data.observacoes :  _ficha.observacoes;
+    _ficha.consultas = data.consultas != null ? data.consultas : _ficha.consultas;
+    await _ficha.save();
+    return EDbStatusReturn.DB_SAVED_OK;
+  } catch {
+    return EDbStatusReturn.DB_GENERAL_EXCEPTION;
+  }
+};
 
 exports.adicionarConsulta = async (fichaId, consultaId) => {
-  var _ficha = await Ficha.findById(fichaId);
-  _ficha.consultas.unshift(consultaId);
-  var res = await _ficha.save();
-  return res; 
-}
+  try {
+    var _ficha = await Ficha.findById(fichaId);
+    _ficha.consultas.unshift(consultaId);
+    await _ficha.save();
+    return EDbStatusReturn.DB_SAVED_OK;
+  } catch {
+    return EDbStatusReturn.DB_GENERAL_EXCEPTION;
+  }
+};
 
 exports.buscarFichaById = async (id) => {
   var data = await Ficha.findById(id);

@@ -8,5 +8,7 @@ const authService = require('../auth');
 const consultaController = require("../controllers/consulta-controller");
 
 router.post("/:id", authService.authorize, consultaController.CadastrarConsulta);
+router.put("/:id", authService.authorize, consultaController.AtualizarConsulta);
+router.get("/:id", authService.authorize, consultaController.BuscarConsultaById);
 
 module.exports = router;
