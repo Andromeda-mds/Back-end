@@ -8,11 +8,11 @@ const schema = new Schema({
     type: String,
     required: false,
   },
-  prontuario: {
+  consultas: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Prontuario",
-    required: false,
-  },
+    ref: "Consulta",
+    required: false
+  }],
   paciente: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Paciente",
