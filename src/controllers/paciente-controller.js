@@ -3,7 +3,6 @@
 const mongoose = require("mongoose");
 const pacienteRepository = require("../repositories/paciente-repository");
 const fichaRepository = require("../repositories/fichaPaciente-repository");
-const prontuarioRepository = require("../repositories/prontuario-repository");
 const validation = require("../services/inputValidator");
 const EResponseValidate = require("../Enums/EResponseValidate");
 const Paciente = mongoose.model("Paciente");
