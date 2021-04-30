@@ -32,6 +32,14 @@ exports.CadastrarPaciente = async (req, res, next) => {
     });
   }
 
+  var email_em_uso = await validation.emailEmUso(data.email);
+  if (email_em_uso == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "Este e-mail já está em uso.",
+      email: data.email
+    })
+  }
+
   try {
     var _paciente = await pacienteRepository.cadastrarPaciente({
       nomeCompleto: req.body.nomeCompleto,

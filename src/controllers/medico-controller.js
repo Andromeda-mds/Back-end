@@ -38,6 +38,14 @@ exports.CadastrarMedico = async (req, res) => {
     })
   }
 
+  var email_em_uso = await validation.emailEmUso(data.email);
+  if (email_em_uso == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "Este e-mail já está em uso.",
+      email: data.email
+    })
+  }
+
   try {
     var _res = await funcionarioRepository.cadastrarFuncionario({
       nomeCompleto: data.nomeCompleto,
@@ -61,7 +69,7 @@ exports.CadastrarMedico = async (req, res) => {
 
               email: ${req.body.email},
               senha de acesso: ${req.body.senhaAcesso}`
-    }).then(info => res.send(info)).catch(err => res.send(err));   
+    }).then(info => res.send(info)).catch(err => res.send(err));
     return res.status(201).send({
       message: "Médico cadastrado com sucesso.",
       item: _res,
