@@ -52,7 +52,7 @@ const verificarDisponibilidadeMedico = async (_agenda, data) => {
   return horarioEstaDisponivel;
 };
 
-exports.CadastrarConsulta = async (req, res, next) => {
+exports.CadastrarConsulta = async (req, res) => {
   const fichaId = req.params.id;
   const data = req.body;
 
@@ -94,7 +94,7 @@ exports.CadastrarConsulta = async (req, res, next) => {
   }
 };
 
-exports.AtualizarConsulta = async (req, res, next) => {
+exports.AtualizarConsulta = async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
