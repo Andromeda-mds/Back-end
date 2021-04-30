@@ -38,6 +38,13 @@ exports.CadastrarSecretario = async (req, res, next) => {
       email: data.email
     })
   }
+  var email_em_uso = await validation.emailEmUso(data.email);
+  if (email_em_uso == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "Este e-mail já está em uso.",
+      email: data.email
+    })
+  }
 
   try {
     await funcionarioRepository.cadastrarFuncionario({

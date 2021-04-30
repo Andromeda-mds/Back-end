@@ -1,6 +1,22 @@
 "use strict";
 
 const EResponseValidate = require("../Enums/EResponseValidate");
+const mongoose = require("mongoose");
+const Secretario = mongoose.model("Secretario");
+const Medico = mongoose.model("Medico");
+const Paciente = mongoose.model("Paciente");
+
+
+exports.emailEmUso = async (email) => {
+  const Squery = Secretario.where({ email: email });
+  const Mquery = Medico.where({ email: email });
+  const Pquery = Paciente.where({ email: email });
+  const _secretario = await Squery.findOne();
+  const _medico = await Mquery.findOne();
+  const _paciente = await Pquery.findOne();
+  if (_secretario == null && _medico == null && _paciente == null) return EResponseValidate.valid;
+  return EResponseValidate.invalid;
+}
 
 exports.validateNomeCompleto = (data) => {
   if (data.nomeCompleto.length >= 3) return EResponseValidate.valid;
