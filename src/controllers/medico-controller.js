@@ -7,53 +7,64 @@ const authService = require("../auth");
 const validation = require("../services/inputValidator");
 const funcionarioRepository = require("../repositories/funcionario-repository");
 const Medico = mongoose.model("Medico");
+const EResponseValidate = require("../Enums/EResponseValidate");
+const _email = require("../services/email");
 
 
 
-exports.CadastrarMedico = async (req, res, next) => {
+exports.CadastrarMedico = async (req, res) => {
   const data = req.body;
 
   // Fail fast validate
 
-  if(validation.validateNomeCompleto(data) == EResponseValidate.invalid)
-  {
+  if (validation.validateNomeCompleto(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "O nome deve conter, pelo menos, 3 caracteres.",
       nomeCompleto: data.nomeCompleto
     })
   }
 
-  if(validation.validateCPF(data) == EResponseValidate.invalid)
-  {
+  if (validation.validateCPF(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "CPF inválido",
       cpf: data.cpf
     })
   }
 
-  if(validation.validateEmail(data) == EResponseValidate.invalid)
-  {
+  if (validation.validateEmail(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "Email inválido.",
       email: data.email
     })
   }
-  
+
   try {
-    await funcionarioRepository.cadastrarFuncionario({
-      nomeCompleto: req.body.nomeCompleto,
-      cpf: req.body.cpf,
-      dataNascimento: req.body.dataNascimento,
-      email: req.body.email,
-      telefone: req.body.telefone,
-      endereco: req.body.endereco,
-      especialidade: req.body.especialidade,
-      crm: req.body.crm,
-      senhaAcesso: md5(req.body.senhaAcesso),
+    var _res = await funcionarioRepository.cadastrarFuncionario({
+      nomeCompleto: data.nomeCompleto,
+      cpf: data.cpf,
+      dataNascimento: data.dataNascimento,
+      email: data.email,
+      telefone: data.telefone,
+      endereco: data.endereco,
+      especialidade: data.especialidade,
+      crm: data.crm,
+      senhaAcesso: md5(data.senhaAcesso),
     }, Medico);
-    res.status(201).send({
+    _email.module.sendMail({
+      from: "sispoc.mds@gmail.com",
+      to: "victormatheusts@gmail.com",
+      replyto: "sispoc.mds@gmail.com",
+      subject: "Boas vindas",
+      text: `Olá!
+        Seu acesso ao SisPoc econtra-se abaixo.
+            Qualquer dúvida entrar em contato com o administrador.
+
+              email: ${req.body.email},
+              senha de acesso: ${req.body.senhaAcesso}`
+    }).then(info => res.send(info)).catch(err => res.send(err));   
+    return res.status(201).send({
       message: "Médico cadastrado com sucesso.",
-      item: req.body,
+      item: _res,
     });
   } catch (e) {
     res.status(500).send({

@@ -27,6 +27,7 @@ const secretario = require("./models/secretario");
 const paciente = require("./models/paciente");
 const fichaPaciente = require("./models/fichaPaciente");
 const consulta = require("./models/consulta");
+const email = require("./services/email");
 // carregando rotas
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
