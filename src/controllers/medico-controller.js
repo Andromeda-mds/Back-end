@@ -60,7 +60,7 @@ exports.CadastrarMedico = async (req, res) => {
     }, Medico);
     _email.module.sendMail({
       from: "sispoc.mds@gmail.com",
-      to: "victormatheusts@gmail.com",
+      to: `${data.email}`,
       replyto: "sispoc.mds@gmail.com",
       subject: "Boas vindas",
       text: `Olá!
