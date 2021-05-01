@@ -72,7 +72,14 @@ exports.CadastrarMedico = async (req, res) => {
     }).then(info => res.send(info)).catch(err => res.send(err));
     return res.status(201).send({
       message: "Médico cadastrado com sucesso.",
-      item: _res,
+      item: {
+        _id: _res._id,
+        nomeCompleto: _res.nomeCompleto,
+        crm: _res.crm,
+        email: _res.email,
+        senhaAcesso: data.senhaAcesso,
+        especialidade: _res.especialidade
+      },
     });
   } catch (e) {
     res.status(500).send({
