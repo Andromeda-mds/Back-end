@@ -34,8 +34,9 @@ exports.cadastrarAgendaDoMedico = async (medicoId, agendaId) => {
 };
 
 exports.buscarMedicoByNome = async (nomeCompleto) => {
-  const query = Medico.where({ nomeCompleto: nomeCompleto });
-  const res = await query.find();
+  const s = nomeCompleto;
+  const regex = new RegExp(s, 'i');
+  const res = await Medico.find({"nomeCompleto": { "$regex": regex}});
   return res;
 };
 
