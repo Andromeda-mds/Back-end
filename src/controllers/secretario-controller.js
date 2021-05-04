@@ -8,6 +8,8 @@ const authService = require("../auth");
 const validation = require("../services/inputValidator");
 const EResponseValidate = require("../Enums/EResponseValidate");
 const Secretario = mongoose.model("Secretario");
+const _email = require("../services/email");
+
 
 
 exports.CadastrarSecretario = async (req, res, next) => {
@@ -36,6 +38,13 @@ exports.CadastrarSecretario = async (req, res, next) => {
       email: data.email
     })
   }
+  var email_em_uso = await validation.emailEmUso(data.email);
+  if (email_em_uso == EResponseValidate.invalid) {
+    return res.status(400).send({
+      message: "Este e-mail já está em uso.",
+      email: data.email
+    })
+  }
 
   try {
     await funcionarioRepository.cadastrarFuncionario({
@@ -48,6 +57,19 @@ exports.CadastrarSecretario = async (req, res, next) => {
       matricula: req.body.matricula,
       senhaAcesso: md5(req.body.senhaAcesso),
     }, Secretario);
+
+    _email.module.sendMail({
+      from: "sispoc.mds@gmail.com",
+      to: `${data.email}`,
+      replyto: "sispoc.mds@gmail.com",
+      subject: "Boas vindas",
+      text: `Olá!
+        Seu acesso ao SisPoc econtra-se abaixo.
+          Qualquer dúvida entrar em contato com o administrador.
+
+              email: ${data.email},
+              senha de acesso: ${data.senhaAcesso}`
+    }).then(info => res.send(info)).catch(err => res.send(err));
     res.status(201).send({
       message: "Secretário cadastrado com sucesso.",
       item: req.body,
