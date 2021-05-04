@@ -35,9 +35,10 @@ exports.cadastrarAgendaDoMedico = async (medicoId, agendaId) => {
 
 exports.buscarMedicoByNome = async (nomeCompleto) => {
   const query = Medico.where({ nomeCompleto: nomeCompleto });
-  const res = await query.findOne();
+  const res = await query.find();
   return res;
 };
+
 
 exports.buscarMedicoByCRM = async (crm) => {
   const query = Medico.where({ crm: crm });
