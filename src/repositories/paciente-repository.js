@@ -10,9 +10,8 @@ exports.cadastrarPaciente = async (data) => {
 };
 
 exports.atualizarPaciente = async (id, data) => {
-  // var paciente = await Paciente.findById(id);
 
-  await Paciente.findByIdAndUpdate(id, {
+  const _paciente = await Paciente.findByIdAndUpdate(id, {
     $set: {
       nomeCompleto: data.nomeCompleto,
       cpf: data.cpf,
@@ -23,6 +22,7 @@ exports.atualizarPaciente = async (id, data) => {
       convenio: data.convenio,
     },
   });
+  return _paciente;
 };
 
 exports.buscarPacienteById = async (id) => {
@@ -31,7 +31,8 @@ exports.buscarPacienteById = async (id) => {
 };
 
 exports.buscarPacienteByName = async (name) => {
-  const query = Paciente.where({ nomeCompleto: name });
-  const res = await query.findOne();
+  const s = name;
+  const regex = new RegExp(s, "i");
+  const res = await Paciente.find({ nomeCompleto: { $regex: regex } });
   return res;
 };
