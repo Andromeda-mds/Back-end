@@ -33,6 +33,6 @@ exports.buscarPacienteById = async (id) => {
 exports.buscarPacienteByName = async (name) => {
   const s = name;
   const regex = new RegExp(s, "i");
-  const res = await Paciente.find({ nomeCompleto: { $regex: regex } });
+  const res = await Paciente.find({ "nomeCompleto": { "$regex": regex } });
   return res;
 };
