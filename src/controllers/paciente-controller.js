@@ -96,10 +96,10 @@ exports.AtualizarPaciente = async (req, res, next) => {
   }
 
   try {
-    await pacienteRepository.atualizarPaciente(_id, data);
-    res.status(201).send({
+    var _paciente = await pacienteRepository.atualizarPaciente(_id, data);
+    res.status(200).send({
       message: "Paciente atualizado com sucesso.",
-      item: data,
+      item: _paciente,
     });
   } catch {
     res.status(500).send({
@@ -122,11 +122,11 @@ exports.BuscarPacienteById = async (req, res, next) => {
   }
 };
 
-exports.BuscarPacienteByName = async (req, res, next) => {
+exports.BuscarPacienteByName = async (req, res) => {
   const _nome = req.params.nome;
   try {
     var _paciente = await pacienteRepository.buscarPacienteByName(_nome);
-    if (_paciente != null) res.status(201).send({ item: _paciente });
+    if (_paciente.length != 0) res.status(200).send(_paciente);
     res.status(404).send({ message: "Paciente não encontrado" });
   } catch {
     res
