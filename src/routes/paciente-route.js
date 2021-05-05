@@ -9,6 +9,6 @@ const pacienteController = require("../controllers/paciente-controller");
 router.post("/", authService.authorize, pacienteController.CadastrarPaciente);
 router.put("/:id", authService.authorize, pacienteController.AtualizarPaciente);
 router.get("/:id", authService.authorize, pacienteController.BuscarPacienteById);
-router.get("/:nome", authService.authorize, pacienteController.BuscarPacienteByName);
+router.get("/nome/:nome", authService.authorize, pacienteController.BuscarPacienteByName);
 
 module.exports = router;
