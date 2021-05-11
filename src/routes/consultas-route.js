@@ -11,5 +11,6 @@ router.post("/:id", authService.authorize, consultaController.CadastrarConsulta)
 router.put("/:id", authService.authorize, consultaController.AtualizarConsulta);
 router.get("/:id", authService.authorize, consultaController.BuscarConsultaById);
 router.get("/medico/:id", authService.authorize, consultaController.BuscarConsultaByMedico);
+router.delete("/:id", authService.authorize, consultaController.RemoverConsulta);
 
 module.exports = router;

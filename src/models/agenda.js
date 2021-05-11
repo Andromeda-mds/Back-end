@@ -25,11 +25,9 @@ const schema = new Schema({
   ],
   horariosPreenchidos: [
     {
-      consulta: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Consulta",
-        required: false,
-      }
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Consulta",
+      required: false,
     },
   ],
 });
