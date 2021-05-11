@@ -9,6 +9,7 @@ const funcionarioRepository = require("../repositories/funcionario-repository");
 const Medico = mongoose.model("Medico");
 const EResponseValidate = require("../Enums/EResponseValidate");
 const _email = require("../services/email");
+const AgendaRepository = require("../repositories/agenda-repository")
 
 
 
@@ -58,6 +59,63 @@ exports.CadastrarMedico = async (req, res) => {
       crm: data.crm,
       senhaAcesso: md5(data.senhaAcesso),
     }, Medico);
+    var medicoId = _res._id;
+    var data_agenda = {
+      "horariosDisponiveis": [
+        {
+          "dia": "1",
+          "periodo": "manha",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "2",
+          "periodo": "manha",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "3",
+          "periodo": "manha",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "4",
+          "periodo": "manha",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "5",
+          "periodo": "manha",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "1",
+          "periodo": "tarde",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "2",
+          "periodo": "tarde",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "3",
+          "periodo": "tarde",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "4",
+          "periodo": "tarde",
+          "horarios": ["1", "2", "3", "4"]
+        },
+        {
+          "dia": "5",
+          "periodo": "tarde",
+          "horarios": ["1", "2", "3", "4"]
+        }
+      ]
+    }
+    var agenda_response = await AgendaRepository.cadastrarAgenda(data_agenda);
+    var _medico_res = await repository.cadastrarAgendaDoMedico(medicoId, agenda_response._id);
     _email.module.sendMail({
       from: process.env.EMAIL_ADDRESS,
       to: `${data.email}`,
@@ -78,8 +136,9 @@ exports.CadastrarMedico = async (req, res) => {
         crm: _res.crm,
         email: _res.email,
         senhaAcesso: data.senhaAcesso,
-        especialidade: _res.especialidade
-      },
+        especialidade: _res.especialidade,
+        agenda: agenda_response._id
+      }
     });
   } catch (e) {
     res.status(500).send({
