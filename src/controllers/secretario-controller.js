@@ -176,7 +176,7 @@ exports.BuscarSecretarioByNome = async (req, res) => {
   try{
     const secretario = await repository.buscarSecretarioByNome(nome);
     res.status(200).send({
-      send: secretario
+      item: secretario
     });
   }
   catch{

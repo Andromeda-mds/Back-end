@@ -10,5 +10,6 @@ router.post('/authenticate', SecretarioController.authenticate);
 router.put('/:id', authService.authorize, SecretarioController.AtualizarSecretario);
 router.get('/:id', authService.authorize, SecretarioController.BuscarSecretarioById);
 router.get('/:matricula', authService.authorize, SecretarioController.BuscarSecretarioByMatricula);
+router.get('/nome/:nome', authService.authorize, SecretarioController.BuscarSecretarioByNome);
 
 module.exports = router;
