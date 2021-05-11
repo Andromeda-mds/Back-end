@@ -59,9 +59,9 @@ exports.CadastrarSecretario = async (req, res, next) => {
     }, Secretario);
 
     _email.module.sendMail({
-      from: "sispoc.mds@gmail.com",
+      from: process.env.EMAIL_ADDRESS,
       to: `${data.email}`,
-      replyto: "sispoc.mds@gmail.com",
+      replyto: process.env.EMAIL_ADDRESS,
       subject: "Boas vindas",
       text: `Olá!
         Seu acesso ao SisPoc econtra-se abaixo.
@@ -169,3 +169,19 @@ exports.BuscarSecretarioByMatricula = async (req, res, next) => {
     });
   }
 };
+
+exports.BuscarSecretarioByNome = async (req, res) => {
+  const nome = req.params.nome;
+
+  try{
+    const secretario = await repository.buscarSecretarioByNome(nome);
+    res.status(200).send({
+      send: secretario
+    });
+  }
+  catch{
+    res.status(500).send({
+      message: "Ocorreu um erro na requisição"
+    })
+  }
+}

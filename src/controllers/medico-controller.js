@@ -59,9 +59,9 @@ exports.CadastrarMedico = async (req, res) => {
       senhaAcesso: md5(data.senhaAcesso),
     }, Medico);
     _email.module.sendMail({
-      from: "sispoc.mds@gmail.com",
+      from: process.env.EMAIL_ADDRESS,
       to: `${data.email}`,
-      replyto: "sispoc.mds@gmail.com",
+      replyto: process.env.EMAIL_ADDRESS,
       subject: "Boas vindas",
       text: `Olá!
         Seu acesso ao SisPoc econtra-se abaixo.
