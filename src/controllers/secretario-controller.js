@@ -15,24 +15,21 @@ const _email = require("../services/email");
 exports.CadastrarSecretario = async (req, res, next) => {
   const data = req.body;
 
-  if(validation.validateNomeCompleto(data) == EResponseValidate.invalid)
-  {
+  if (validation.validateNomeCompleto(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "O nome deve conter, pelo menos, 3 caracteres.",
       nomeCompleto: data.nomeCompleto
     })
   }
 
-  if(validation.validateCPF(data) == EResponseValidate.invalid)
-  {
+  if (validation.validateCPF(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "CPF inválido",
       cpf: data.cpf
     })
   }
 
-  if(validation.validateEmail(data) == EResponseValidate.invalid)
-  {
+  if (validation.validateEmail(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "Email inválido.",
       email: data.email
@@ -87,9 +84,9 @@ exports.authenticate = async (req, res, next) => {
       email: req.body.email,
       senhaAcesso: md5(req.body.senhaAcesso),
     });
-    
+
     console.log("Teste")
-    
+
 
     if (!secretario) {
       res.status(404).send({
@@ -173,13 +170,11 @@ exports.BuscarSecretarioByMatricula = async (req, res, next) => {
 exports.BuscarSecretarioByNome = async (req, res) => {
   const nome = req.params.nome;
 
-  try{
+  try {
     const secretario = await repository.buscarSecretarioByNome(nome);
-    res.status(200).send({
-      item: secretario
-    });
+    res.status(200).send(secretario);
   }
-  catch{
+  catch {
     res.status(500).send({
       message: "Ocorreu um erro na requisição"
     })
