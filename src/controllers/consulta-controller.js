@@ -151,3 +151,15 @@ exports.BuscarConsultaByMedico = async (req, res, next) => {
     });
   }
 };
+ 
+exports.RemoverConsulta = async (req, res) => {
+  const consultaId = req.params.id;
+  try{
+    var _consulta = await consultaRepository.removerConsulta(consultaId);
+    res.status(200).send({message: "Consulta removida com sucesso", item: _consulta});
+  }
+  catch
+  {
+    res.status(500).send({message: "Ocorreu um erro com a requisição"})
+  }
+}

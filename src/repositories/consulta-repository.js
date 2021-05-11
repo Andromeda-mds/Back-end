@@ -3,6 +3,8 @@
 const mongoose = require("mongoose");
 const EDbStatusReturn = require("../Enums/EDbStatusReturn");
 const Consulta = mongoose.model("Consulta");
+const Agenda = mongoose.model("Agenda");
+const Ficha = mongoose.model("FichaPaciente")
 
 exports.cadastrarConsulta = async (data) => {
   var consulta = new Consulta(data);
@@ -32,3 +34,10 @@ exports.buscarConsultaByMedico = async (medicoid) => {
   var _consultas = await query.find();
   return _consultas;
 };
+
+exports.removerConsulta = async (consultaId) => {
+  await Agenda.findOneAndUpdate({ horariosPreenchidos: consultaId }, { $pull: { "horariosPreenchidos": consultaId } }, { new: true });
+  await Ficha.findOneAndUpdate({ consultas: consultaId }, { $pull: { consultas: consultaId } }, { new: true });
+  var res = await Consulta.findByIdAndDelete(consultaId);
+  return res;
+}

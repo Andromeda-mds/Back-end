@@ -169,3 +169,19 @@ exports.BuscarSecretarioByMatricula = async (req, res, next) => {
     });
   }
 };
+
+exports.BuscarSecretarioByNome = async (req, res) => {
+  const nome = req.params.nome;
+
+  try{
+    const secretario = await repository.buscarSecretarioByNome(nome);
+    res.status(200).send({
+      send: secretario
+    });
+  }
+  catch{
+    res.status(500).send({
+      message: "Ocorreu um erro na requisição"
+    })
+  }
+}
