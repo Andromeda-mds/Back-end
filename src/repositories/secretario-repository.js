@@ -24,8 +24,9 @@ exports.buscarSecretarioById = async (id) => {
 };
 
 exports.buscarSecretarioByNome = async (nomeCompleto) => {
-  const query = Secretario.where({ nomeCompleto: nomeCompleto });
-  const res = await query.findOne();
+  const s = nomeCompleto;
+  const regex = new RegExp(s, "i");
+  const res = await Secretario.find({ "nomeCompleto": { "$regex": regex } });
   return res;
 };
 
