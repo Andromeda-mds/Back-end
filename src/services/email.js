@@ -5,8 +5,8 @@ const remetente = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: "sispoc.mds@gmail.com",
-        pass: "sispoc2021"
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
     }
 });
 exports.module = remetente;
