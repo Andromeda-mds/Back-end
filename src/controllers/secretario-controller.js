@@ -10,63 +10,67 @@ const EResponseValidate = require("../Enums/EResponseValidate");
 const Secretario = mongoose.model("Secretario");
 const _email = require("../services/email");
 
-
-
 exports.CadastrarSecretario = async (req, res, next) => {
   const data = req.body;
 
   if (validation.validateNomeCompleto(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "O nome deve conter, pelo menos, 3 caracteres.",
-      nomeCompleto: data.nomeCompleto
-    })
+      nomeCompleto: data.nomeCompleto,
+    });
   }
 
   if (validation.validateCPF(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "CPF inválido",
-      cpf: data.cpf
-    })
+      cpf: data.cpf,
+    });
   }
 
   if (validation.validateEmail(data) == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "Email inválido.",
-      email: data.email
-    })
+      email: data.email,
+    });
   }
   var email_em_uso = await validation.emailEmUso(data.email);
   if (email_em_uso == EResponseValidate.invalid) {
     return res.status(400).send({
       message: "Este e-mail já está em uso.",
-      email: data.email
-    })
+      email: data.email,
+    });
   }
 
   try {
-    await funcionarioRepository.cadastrarFuncionario({
-      nomeCompleto: req.body.nomeCompleto,
-      cpf: req.body.cpf,
-      dataNascimento: req.body.dataNascimento,
-      email: req.body.email,
-      telefone: req.body.telefone,
-      endereco: req.body.endereco,
-      matricula: req.body.matricula,
-      senhaAcesso: md5(req.body.senhaAcesso),
-    }, Secretario);
+    await funcionarioRepository.cadastrarFuncionario(
+      {
+        nomeCompleto: req.body.nomeCompleto,
+        cpf: req.body.cpf,
+        dataNascimento: req.body.dataNascimento,
+        email: req.body.email,
+        telefone: req.body.telefone,
+        endereco: req.body.endereco,
+        matricula: req.body.matricula,
+        senhaAcesso: md5(req.body.senhaAcesso),
+      },
+      Secretario
+    );
 
-    _email.module.sendMail({
-      from: process.env.EMAIL_ADDRESS,
-      to: `${data.email}`,
-      replyto: process.env.EMAIL_ADDRESS,
-      subject: "Boas vindas",
-      text: `Olá!
+    _email.module
+      .sendMail({
+        from: process.env.EMAIL_ADDRESS,
+        to: `${data.email}`,
+        replyto: process.env.EMAIL_ADDRESS,
+        subject: "Boas vindas",
+        text: `Olá!
         Seu acesso ao SisPoc econtra-se abaixo.
           Qualquer dúvida entrar em contato com o administrador.
 
               email: ${data.email},
-              senha de acesso: ${data.senhaAcesso}`
-    }).then(info => res.send(info)).catch(err => res.send(err));
+              senha de acesso: ${data.senhaAcesso}`,
+      })
+      .then((info) => res.send(info))
+      .catch((err) => res.send(err));
     res.status(201).send({
       message: "Secretário cadastrado com sucesso.",
       item: req.body,
@@ -85,8 +89,7 @@ exports.authenticate = async (req, res, next) => {
       senhaAcesso: md5(req.body.senhaAcesso),
     });
 
-    console.log("Teste")
-
+    console.log("Teste");
 
     if (!secretario) {
       res.status(404).send({
@@ -135,7 +138,6 @@ exports.AtualizarSecretario = async (req, res, next) => {
   }
 };
 
-
 exports.BuscarSecretarioById = async (req, res, next) => {
   const id = req.params.id;
   // fail fast validate
@@ -172,11 +174,11 @@ exports.BuscarSecretarioByNome = async (req, res) => {
 
   try {
     const secretario = await repository.buscarSecretarioByNome(nome);
-    res.status(200).send(secretario);
-  }
-  catch {
+    if (secretario.length > 0) return res.status(200).send(secretario);
+    res.status(404).send({ message: "Secretário não encontrado" });
+  } catch {
     res.status(500).send({
-      message: "Ocorreu um erro na requisição"
-    })
+      message: "Ocorreu um erro na requisição",
+    });
   }
-}
+};
