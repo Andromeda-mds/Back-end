@@ -38,8 +38,7 @@ const schema = new Schema({
   },
   exames: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Exame",
+      type: String,
       required: false,
     },
   ],

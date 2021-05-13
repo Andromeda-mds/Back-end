@@ -28,6 +28,7 @@ const paciente = require("./models/paciente");
 const fichaPaciente = require("./models/fichaPaciente");
 const consulta = require("./models/consulta");
 const email = require("./services/email");
+const filaEspera = require("./models/filaDeEspera");
 // carregando rotas
 const indexRoute = require("./routes/index-route");
 const consultorioRoute = require("./routes/consultorio-route");
@@ -37,7 +38,7 @@ const secretarioRoute = require("./routes/secretario-route");
 const pacienteRoute = require("./routes/paciente-route");
 const consultaRoute = require("./routes/consultas-route");
 const fichaRoute = require("./routes/fichaPaciente-route");
-
+const filaEsperaRoute = require("./routes/filaDeEspera-route");
 //
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -54,5 +55,6 @@ app.use("/secretario", secretarioRoute);
 app.use("/paciente", pacienteRoute);
 app.use("/consulta", consultaRoute);
 app.use("/ficha", fichaRoute);
+app.use("/fila", filaEsperaRoute);
 
 module.exports = app;
